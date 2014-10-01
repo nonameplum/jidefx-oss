@@ -160,10 +160,6 @@ public class ValidationDemo extends AbstractFxDemo {
         ValidationGroup validationGroup = new ValidationGroup(emailField, passwordField);
         signUpButton.disableProperty().bind(validationGroup.invalidProperty());
 
-        validationGroup.invalidProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
-        });
-
         ValidationUtils.forceValidate(emailField, ValidationMode.ON_FLY);
         ValidationUtils.forceValidate(passwordField, ValidationMode.ON_FLY);
 
@@ -273,6 +269,7 @@ public class ValidationDemo extends AbstractFxDemo {
         }
 
         final Label finalValidationLabel = validationLabel;
+
         // Show Validation tooltip on date picker focus
         dpDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -280,12 +277,25 @@ public class ValidationDemo extends AbstractFxDemo {
             }
         });
 
-        dpDate.addEventHandler(ValidationEvent.VALIDATION_ERROR, event -> {
-            ValidationUtils.showTooltip(finalValidationLabel);
+        Label validationLabel2 = null;
+        Optional<List<Decorator>> ovalidationDecorators2 = ValidationUtils.getValidationDecorators(dpDateTwo);
+        if (ovalidationDecorators.isPresent()) {
+            Optional<Node> nodeOptional = Optional.of(ovalidationDecorators2.get().get(0).getNode());
+            if (nodeOptional.isPresent() && (nodeOptional.get() instanceof Label)) {
+                validationLabel2 = (Label) nodeOptional.get();
+            }
+        }
+
+        final Label finalValidationLabel2 = validationLabel2;
+
+        dpDateTwo.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                ValidationUtils.showTooltip(finalValidationLabel2);
+            }
         });
 
-        pane.addEventHandler(ValidationEvent.ANY, event -> {
-            System.out.println(event);
+        dpDate.addEventHandler(ValidationEvent.VALIDATION_ERROR, event -> {
+            ValidationUtils.showTooltip(finalValidationLabel);
         });
 
         return new DecorationPane(pane);

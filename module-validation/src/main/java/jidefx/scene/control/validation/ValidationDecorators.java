@@ -58,8 +58,8 @@ public class ValidationDecorators {
     }
 
     public static void defaultDecorationClickBehavior(MouseEvent mouseEvent) {
-        if (mouseEvent.getTarget() != null && mouseEvent.getTarget() instanceof Label) {
-            Label label = (Label) mouseEvent.getTarget();
+        if (mouseEvent.getSource() != null && mouseEvent.getSource() instanceof Label) {
+            Label label = (Label) mouseEvent.getSource();
             if (label.getTooltip() != null) {
                 Point2D point = label.localToScene(DEFAULT_TOOLTIP_OFFSET_X, DEFAULT_TOOLTIP_OFFSET_Y);
 
