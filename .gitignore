@@ -1,3 +1,9 @@
 *.iml
 build/
 .idea
+*.class
+*.jar
+out
+.gradle
+*.properties
+module-examples/project files/netbeans/nbproject/private/private.xml
